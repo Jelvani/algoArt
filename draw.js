@@ -52,7 +52,7 @@ function random_green() {
     return 'rgba(' + o(r()*150+50) + ',230,' + o(r()*150-50) + ',' + r().toFixed(1) + ')';
 }
 
-function drawTree(iter,cordX,cordY,angle,length){
+function drawTree(iter,cordX,cordY,angle,length,color){
     if(iter<=0){
         return
     }
@@ -60,21 +60,19 @@ function drawTree(iter,cordX,cordY,angle,length){
     var prevY = cordY;
     
     
-    ctx.strokeStyle = random_green()
+    ctx.strokeStyle = 'rgba(' + (iter*20) + ',' + (iter*10) + ',' + (iter*10+50) + ',' + 1 + ')'
     ctx.lineWidth = 1;
     ctx.beginPath();
     var cords = getAngle(prevX,prevY,angle,length);
     ctx.moveTo(prevX,prevY);
     ctx.lineTo(cords[0],cords[1]);
     ctx.stroke();
-    setTimeout(function()
-    {drawTree(iter-1,cords[0],cords[1],angle+20+Math.random()*10,length/(Math.random()/2+1));}
-,100);
-setTimeout(function()
-{drawTree(iter-1,cords[0],cords[1],angle-20+Math.random()*10,length/(Math.random()/2+1))}
-,100);
+    //drawTree(iter-1,cords[0],cords[1],angle+20+Math.random()*10,length/(Math.random()/2+1));
+    //drawTree(iter-1,cords[0],cords[1],angle-20+Math.random()*10,length/(Math.random()/2+1));
+    drawTree(iter-1,cords[0],cords[1],angle+50,length/1.2);
+    drawTree(iter-1,cords[0],cords[1],angle-50,length/1.2);
 
     
 }
 
-drawTree(12,250,500,-90,60);
+drawTree(15,250,350,-90,60);
