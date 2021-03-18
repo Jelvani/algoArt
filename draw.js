@@ -1,40 +1,9 @@
-var canvas = document.getElementById("canvas");
-canvas.width = window.innerHeight;
-canvas.height = window.innerHeight;
-var ctx = canvas.getContext("2d");
-ctx.scale(2,2);
-ctx.fillStyle = "Black";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-mouseX = 0
-mouseY = 0
+function setup() {
+    createCanvas(1000, 1000);
+    background(0);
+  }
 
-canvas.addEventListener('mousemove', e => {
 
-    mouseX = e.offsetX;
-    mouseY = e.offsetY;
-    
-  });
-
-function drawPoint(x,y,x1,y1,color1,color2){
-    x = x+canvas.width/2;
-    y = y+canvas.height/2;
-    x1 = x1+canvas.width/2;
-    y1 = y1+canvas.height/2;
-
-    var grad= ctx.createLinearGradient(x, y, x1, y1);
-    grad.addColorStop(0, color1);
-    grad.addColorStop(1, color2);
-
-    ctx.strokeStyle = grad;
-    
-    ctx.beginPath();
-    //ctx.arc(x, y, 7, 0, 2 * Math.PI);
-    ctx.moveTo(x, y);
-    ctx.lineTo(x1, y1);
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.fill();
-}
 
 function getAngle(curX,curY,angle,length){
     newX = curX + (Math.cos(angle*Math.PI/180))*length
@@ -74,5 +43,44 @@ function drawTree(iter,cordX,cordY,angle,length,color){
 
     
 }
+function getRandomArbitrary(min, max) {//return rand number in range
+    return Math.random() * (max - min) + min;
+  }
+  
 
-drawTree(15,250,350,-90,60);
+
+seed = 0.1;
+function drawFern(x,y,scale,prob){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    a =  (Math.sin(seed)+1)/6+0.2
+    seed+=0.1;
+    for(z = 0;z<10000;z++){
+    ctx.strokeStyle = random_green();
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.rect(x*50+450,y*50, scale, scale);
+    ctx.stroke();
+    if(prob< 0.01){//stem
+        x = 0;
+        y = 0.16*y;
+    }
+    else if(prob < 0.85){//curl
+        x = 0.85*x + 0.04*y;
+        y = -0.04*x + 0.85*y + 3.6;
+    }
+    else if(prob < 0.92){//left half leaves
+        x = a*x - 0.26*y;
+        y = 0.23*x + 0.22*y + 1.6; 
+    }
+    else{
+        x = -a*x + 0.28*y;//right half leaves
+        y = 0.26*x + 0.24*y + 0.44; 
+    }
+    prob = Math.random();
+}
+}
+
+//drawTree(15,250,350,-90,60);
+
+
+
